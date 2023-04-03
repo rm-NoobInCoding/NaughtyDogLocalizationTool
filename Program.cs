@@ -18,13 +18,14 @@ namespace NaughtyDogLocalizationTool
             {
                 Console.WriteLine("Naughty Dog Localization Tool");
                 Console.WriteLine("By NoobInCoding");
-                Console.WriteLine("Using this tool, you can edit the localization files of all Naughty Dog games (which contain the extensions .subtitles and .common).");
+                Console.WriteLine("Using this tool, you can edit the localization files of all Naughty Dog games (*.subtitles or *.common).");
                 Console.WriteLine("Usage:");
-                Console.WriteLine("\tExport: " + AppDomain.CurrentDomain.FriendlyName + " <localization file> [version (default is 2)]");
-                Console.WriteLine("");
-                Console.WriteLine("To convert it into a localization file, just drag the text file into the tool to create a new localization file");
-                Console.WriteLine("\tImport: " + AppDomain.CurrentDomain.FriendlyName + " <localization file>");
-                
+                Console.WriteLine("\tExport: " + AppDomain.CurrentDomain.FriendlyName + " <localization file> [version id (default is 2)]");
+                Console.WriteLine("\tImport: " + AppDomain.CurrentDomain.FriendlyName + " <Exported txt file>");
+                Console.WriteLine("\nSupported versions:\n");
+                Console.WriteLine("0: \t Uncharted 3,2,1 (PS3 and PS4) | Last Of Us 1 (PS3)");
+                Console.WriteLine("1: \t Uncharted 4 (PS4 - PS5 - PC) | Last Of Us 1 Remastered (PS4)");
+                Console.WriteLine("2: \t Last Of Us 1 (PS5 - PC) | Last Of Us 2 (PS4 - PS5)");
                 Console.ReadKey();
             }
             else
@@ -36,7 +37,7 @@ namespace NaughtyDogLocalizationTool
                 {
                     int ver = 2;
                     if (args.Length == 2) ver = Int32.Parse(args[1]);
-                    Console.WriteLine("Selected Ver" + ver);
+                    Console.WriteLine("Selected Ver: " + ver);
                     switch (ver)
                     {
                         case 0:
@@ -141,13 +142,12 @@ namespace NaughtyDogLocalizationTool
                 offsets.Add(Read.ReadInt32());
 
             }
-            long baseoff = Read.BaseStream.Position;
+            long StringTablePos = Read.BaseStream.Position;
             for (int i = 0; i < CountOfStrings; i++)
             {
-                Read.BaseStream.Seek(offsets[i], SeekOrigin.Begin);
+                Read.BaseStream.Position = StringTablePos + offsets[i];
                 string str = Read.ReadNullTerminatedString();
                 strings.Add(str);
-                Read.BaseStream.Seek(baseoff, SeekOrigin.Begin);
 
             }
             File.WriteAllLines(path + ".txt", strings);
@@ -213,7 +213,7 @@ namespace NaughtyDogLocalizationTool
             ids.RemoveAt(0);
             int CountOfStrings = strings.Count;
             Write.Write(CountOfStrings);
-            long TempOffset = CountOfStrings * 8 + 4;
+            long TempOffset = 0;
             for (int i = 0; i < CountOfStrings; i++)
             {
                 stringsInbyte.Add(Helpers.WriteNullTerminatedString(strings[i]));
