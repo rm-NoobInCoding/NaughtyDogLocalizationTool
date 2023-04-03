@@ -9,5 +9,7 @@ Usage:
 Supported versions:
 
 0:       Uncharted 3,2,1 (PS3 and PS4) | Last Of Us 1 (PS3)
+
 1:       Uncharted 4 (PS4 - PS5 - PC) | Last Of Us 1 Remastered (PS4)
+
 2:       Last Of Us 1 (PS5 - PC) | Last Of Us 2 (PS4 - PS5)
