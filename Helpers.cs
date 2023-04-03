@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.IO;
+using System;
+using System.Text;
 
 namespace NaughtyDogLocalizationTool
 {
@@ -41,5 +43,6 @@ namespace NaughtyDogLocalizationTool
             if (str == "[EmptyString]") str = "";
             return str;
         }
+        
     }
 }
