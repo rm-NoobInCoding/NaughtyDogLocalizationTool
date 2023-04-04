@@ -82,7 +82,7 @@ namespace NaughtyDogLocalizationTool
             List<long> offsets = new List<long>();
             List<string> ids = new List<string>();
             List<string> strings = new List<string>();
-            ids.Add(3 + "|" + Path.GetExtension(path).Replace(".", ""));
+            ids.Add(2 + "|" + Path.GetExtension(path).Replace(".", ""));
             int CountOfStrings = Read.ReadInt32();
             for (int i = 0; i < CountOfStrings; i++)
             {
@@ -108,7 +108,7 @@ namespace NaughtyDogLocalizationTool
             List<int> offsets = new List<int>();
             List<string> ids = new List<string>();
             List<string> strings = new List<string>();
-            ids.Add(path + "|" + Path.GetExtension(path).Replace(".", ""));
+            ids.Add(1 + "|" + Path.GetExtension(path).Replace(".", ""));
             int CountOfStrings = Read.ReadInt32();
             for (int i = 0; i < CountOfStrings; i++)
             {
@@ -134,7 +134,7 @@ namespace NaughtyDogLocalizationTool
             List<int> offsets = new List<int>();
             List<string> ids = new List<string>();
             List<string> strings = new List<string>();
-            ids.Add(path + "|" + Path.GetExtension(path).Replace(".", ""));
+            ids.Add(0 + "|" + Path.GetExtension(path).Replace(".", ""));
             int CountOfStrings = Read.ReadInt32();
             for (int i = 0; i < CountOfStrings; i++)
             {
