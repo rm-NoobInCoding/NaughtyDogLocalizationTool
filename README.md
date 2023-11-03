@@ -1,16 +1,16 @@
-# Uncharted4LocalizationTool
+# NaughtyDogLocalizationTool
 By NoobInCoding
 
-Using this tool, you can edit the localization files of all Naughty Dog games (*.subtitles or *.common).
+Using this tool, you can edit the localization files of all Naughty Dog games (*.subtitles , *.common , *.subtitles-systemic , *.web).
 
 Usage:
 
-        Export: NaughtyDogLocalizationTool.exe <localization file> [version id (default is 2)]
+        Export: NaughtyDogLocalizationTool.exe <localization file>
         Import: NaughtyDogLocalizationTool.exe <Exported txt file>
 
 Supported versions:
+All platform is supported (PS5 - PS4 - PS3 - PC)
 ```
-0:       Uncharted 3,2,1 (PS3 and PS4) | Last Of Us 1 (PS3)
-1:       Uncharted 4 (PS4 - PS5 - PC) | Last Of Us 1 Remastered (PS4)
-2:       Last Of Us 1 (PS5 - PC) | Last Of Us 2 (PS4 - PS5)
+Uncharted (ALL Games) 
+Last Of Us (ALL Games)
 ```
