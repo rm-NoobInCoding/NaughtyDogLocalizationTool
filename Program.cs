@@ -8,8 +8,9 @@ namespace NaughtyDogLocalizationTool
 {
     internal class Program
     {
-        public static string[] LocalizationExtensions = { ".subtitles", ".common", ".subtitles-systemic" };
+        public static string[] LocalizationExtensions = { ".subtitles", ".common", ".subtitles-systemic", ".web" };
         public static byte[] UnknownString = Encoding.UTF8.GetBytes("UNKNOWN STRING!!!\0");
+        public static string[] SupportedGames = { "Uncharted (ALL Games)", "Last Of Us (ALL Games)" };
         static void Main(string[] args)
         {
 
@@ -19,12 +20,10 @@ namespace NaughtyDogLocalizationTool
                 Console.WriteLine("By NoobInCoding");
                 Console.WriteLine("Using this tool, you can edit the localization files of all Naughty Dog games (*.subtitles or *.common).");
                 Console.WriteLine("Usage:");
-                Console.WriteLine("\tExport: " + AppDomain.CurrentDomain.FriendlyName + " <localization file> [version id (default is 2)]");
+                Console.WriteLine("\tExport: " + AppDomain.CurrentDomain.FriendlyName + " <localization file>");
                 Console.WriteLine("\tImport: " + AppDomain.CurrentDomain.FriendlyName + " <Exported txt file>");
                 Console.WriteLine("\nSupported versions:\n");
-                Console.WriteLine("0: \t Uncharted 3,2,1 (PS3 and PS4) | Last Of Us 1 (PS3)");
-                Console.WriteLine("1: \t Uncharted 4 (PS4 - PS5 - PC) | Last Of Us 1 Remastered (PS4)");
-                Console.WriteLine("2: \t Last Of Us 1 (PS5 - PC) | Last Of Us 2 (PS4 - PS5)");
+                Console.WriteLine(string.Join("\r\n", SupportedGames));
                 Console.ReadKey();
             }
             else
@@ -34,12 +33,7 @@ namespace NaughtyDogLocalizationTool
                 Console.WriteLine("By NoobInCoding");
                 if (LocalizationExtensions.Contains(Path.GetExtension(args[0])))
                 {
-                    int ver = 2;
-                    if (args.Length < 2)
-                    {
-                        Console.WriteLine("Enter Version of file: ");
-                        ver = Int32.Parse(Console.ReadLine());
-                    }
+                    int ver = CheckVer(args[0]);
                     Console.WriteLine("Selected Ver: " + ver);
                     switch (ver)
                     {
@@ -77,6 +71,32 @@ namespace NaughtyDogLocalizationTool
                     }
                 }
             }
+        }
+
+        static int CheckVer(string path)
+        {
+            BinaryReader Read = new BinaryReader(new MemoryStream(File.ReadAllBytes(path)));
+            byte littleOrBig = Read.ReadByte();
+            if (littleOrBig == 0)
+            {
+                //big
+                return 0;
+            }
+            else
+            {
+                //lit
+                Read.BaseStream.Position = 16;
+                if (Read.ReadInt32() == 0)
+                {
+                    return 2;
+                }
+                else
+                {
+                    return 1;
+                }
+
+            }
+
         }
 
         static void Export2(string path)
