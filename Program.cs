@@ -1,5 +1,4 @@
-﻿using Be.IO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -36,7 +35,11 @@ namespace NaughtyDogLocalizationTool
                 if (LocalizationExtensions.Contains(Path.GetExtension(args[0])))
                 {
                     int ver = 2;
-                    if (args.Length == 2) ver = Int32.Parse(args[1]);
+                    if (args.Length < 2)
+                    {
+                        Console.WriteLine("Enter Version of file: ");
+                        ver = Int32.Parse(Console.ReadLine());
+                    }
                     Console.WriteLine("Selected Ver: " + ver);
                     switch (ver)
                     {
@@ -130,16 +133,16 @@ namespace NaughtyDogLocalizationTool
         }
         static void Export0(string path)
         {
-            BeBinaryReader Read = new BeBinaryReader(new MemoryStream(File.ReadAllBytes(path)));
+            BinaryReader Read = new BinaryReader(new MemoryStream(File.ReadAllBytes(path)));
             List<int> offsets = new List<int>();
             List<string> ids = new List<string>();
             List<string> strings = new List<string>();
             ids.Add(0 + "|" + Path.GetExtension(path).Replace(".", ""));
-            int CountOfStrings = Read.ReadInt32();
+            int CountOfStrings = Read.ReadBEInt32();
             for (int i = 0; i < CountOfStrings; i++)
             {
-                ids.Add(Read.ReadUInt32().ToString());
-                offsets.Add(Read.ReadInt32());
+                ids.Add(Read.ReadBEUInt32().ToString());
+                offsets.Add(Read.ReadBEInt32());
 
             }
             long StringTablePos = Read.BaseStream.Position;
@@ -207,18 +210,18 @@ namespace NaughtyDogLocalizationTool
         }
         static void Import0(string txtpath, List<string> ids, List<string> strings)
         {
-            BeBinaryWriter Write = new BeBinaryWriter(new MemoryStream());
+            BinaryWriter Write = new BinaryWriter(new MemoryStream());
             List<byte[]> stringsInbyte = new List<byte[]>();
             string FileExtension = ids[0].Split('|')[1];
             ids.RemoveAt(0);
             int CountOfStrings = strings.Count;
-            Write.Write(CountOfStrings);
+            Write.WriteBE(CountOfStrings);
             long TempOffset = 0;
             for (int i = 0; i < CountOfStrings; i++)
             {
                 stringsInbyte.Add(Helpers.WriteNullTerminatedString(strings[i]));
-                Write.Write(Convert.ToUInt32(ids[i]));
-                Write.Write(TempOffset);
+                Write.WriteBE(Convert.ToUInt32(ids[i]));
+                Write.WriteBE((int)TempOffset);
                 TempOffset += stringsInbyte[i].Length;
 
             }
